@@ -37,6 +37,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         btnSignUp.setOnClickListener(SignUpActivity.this);
         btnHaveAccount.setOnClickListener(SignUpActivity.this);
+
+        if(ParseUser.getCurrentUser() != null){
+            startActivity(new Intent(SignUpActivity.this,TwitterCloneActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -52,7 +57,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
 
     private void btnSignUpTapped() {
         boolean objection = false;
@@ -91,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             parseUser.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e != null) {
+                    if(e == null) {
                         Toast.makeText(
                                 SignUpActivity.this,
                                 String.format(
@@ -101,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.LENGTH_SHORT)
                             .show();
                     } else {
-                        Log.i(APPTAG,e.getMessage());
+                        Log.i(APPTAG, e.getMessage());
                     }
                 }
             });
