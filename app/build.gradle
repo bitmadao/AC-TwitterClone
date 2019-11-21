@@ -28,6 +28,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     // Don't forget to change the line below with the latest version of Parse SDK for Android
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
+    implementation 'com.google.android.material:material:1.0.0'
 }
 
 repositories {

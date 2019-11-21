@@ -7,4 +7,13 @@
     <!--<string name="back4app_app_id">[APP_ID]</string>-->
     <!--<string name="back4app_client_key">[CLIENT_KEY]</string>-->
 
+    <!-- Generic strings -->
+    <string name="generic_username">Username</string>
+    <string name="generic_password">Password</string>
+
+    <!-- LoginActivity -->
+    <string name="btn_activity_login_login">Login</string>
+    <string name="btn_activity_login_need_account">I need to sign up!</string>
+    <string name="hint_activity_login_edt_username">Username or E-mail address</string>
+
 </resources>
