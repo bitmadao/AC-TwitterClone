@@ -23,5 +23,11 @@
     <string name="hint_activity_sign_up_edt_password_confirm">Confirm your password</string>
     <string name="btn_activity_sign_up_sign_up">Sign Up</string>
     <string name="btn_activity_sign_up_have_account">I already have an account!</string>
+    <string name="toast_activity_sign_up_objection_string_start">Please address the following:\n</string>
+    <string name="toast_activity_sign_up_objection_string_username">You must supply a username.\n</string>
+    <string name="toast_activity_sign_up_objection_string_email">You must supply a valid email.\n</string>
+    <string name="toast_activity_sign_up_objection_string_password">You must choose a password and confirm it.</string>
+    <string name="toast_activity_sign_up_objection_string_password_confirm">Confirmed password must match chosen password.</string>
+    <string name="toast_activity_sign_up_sign_up_success">%s signed up successfully!</string>
 
 </resources>
