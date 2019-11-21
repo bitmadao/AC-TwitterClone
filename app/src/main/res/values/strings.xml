@@ -16,4 +16,12 @@
     <string name="btn_activity_login_need_account">I need to sign up!</string>
     <string name="hint_activity_login_edt_username">Username or E-mail address</string>
 
+    <!-- SignUpActivity -->
+    <string name="hint_activity_sign_up_edt_username">Enter a username</string>
+    <string name="hint_activity_sign_up_edt_email">Enter an e-mail address</string>
+    <string name="hint_activity_sign_up_edt_password">Choose your password</string>
+    <string name="hint_activity_sign_up_edt_password_confirm">Confirm your password</string>
+    <string name="btn_activity_sign_up_sign_up">Sign Up</string>
+    <string name="btn_activity_sign_up_have_account">I already have an account!</string>
+
 </resources>
