@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.LogInCallback;
@@ -16,18 +18,23 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
+import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private ConstraintLayout constraintLayout;
     private TextInputEditText edtUsername, edtPassword;
 
     private Button btnLogin, btnNeedAccount;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ParseInstallation.getCurrentInstallation().saveInBackground();
+        constraintLayout = findViewById(R.id.activityLoginConstraintLayout);
 
         edtUsername = findViewById(R.id.textInputEditTextLoginActivityUsername);
         edtPassword = findViewById(R.id.textInputEditTextLoginActivityPassword);
@@ -64,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
 
+        progressBar = createGoneProgressBar(LoginActivity.this,constraintLayout);
+        progressBar.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(
                 edtUsername.getText().toString(),
                 edtPassword.getText().toString(),
@@ -97,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.LENGTH_LONG)
                             .show();
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
         });
 
