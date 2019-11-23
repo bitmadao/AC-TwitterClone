@@ -104,8 +104,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 ),
                                 Toast.LENGTH_SHORT)
                             .show();
+                    } else if (e.getMessage().equals("Account already exists for this username.")) {
+                        Toast.makeText(
+                                SignUpActivity.this,
+                                String.format(
+                                        getString(R.string.toast_activity_sign_up_sign_up_error_username),
+                                        edtUsername.getText().toString()
+                                    ),
+                                Toast.LENGTH_LONG)
+                            .show();
                     } else {
                         Log.i(APPTAG, e.getMessage());
+                        Toast.makeText(
+                                SignUpActivity.this,
+                                getString(R.string.generic_toast_error),
+                                Toast.LENGTH_LONG)
+                            .show();
+
                     }
                 }
             });
