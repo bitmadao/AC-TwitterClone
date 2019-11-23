@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(LoginActivity.this);
         btnNeedAccount.setOnClickListener(LoginActivity.this);
 
+        if(ParseUser.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this,TwitterCloneActivity.class));
+            finish();
+        }
+
 
     }
 
