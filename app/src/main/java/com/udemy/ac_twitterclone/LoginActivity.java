@@ -3,6 +3,7 @@ package com.udemy.ac_twitterclone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,7 +22,7 @@ import static com.udemy.ac_twitterclone.ACTwitterCloneTools.*;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
     private ConstraintLayout constraintLayout;
     private TextInputEditText edtUsername, edtPassword;
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(LoginActivity.this);
         btnNeedAccount.setOnClickListener(LoginActivity.this);
 
+        edtPassword.setOnKeyListener(LoginActivity.this);
+
         if(ParseUser.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this,TwitterCloneActivity.class));
             finish();
@@ -70,6 +73,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 btnNeedAccountTapped();
                 break;
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+            onClick(btnLogin);
+        }
+
+        return false;
     }
 
     private void btnLoginTapped() {

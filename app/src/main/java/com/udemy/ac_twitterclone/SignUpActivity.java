@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,7 +22,7 @@ import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.hideSoftKeyboardOnTap;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
     private ConstraintLayout constraintLayout;
     private ProgressBar progressBar;
@@ -49,6 +50,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         btnSignUp.setOnClickListener(SignUpActivity.this);
         btnHaveAccount.setOnClickListener(SignUpActivity.this);
 
+        edtPasswordConfirm.setOnKeyListener(SignUpActivity.this);
+
         if(ParseUser.getCurrentUser() != null){
             startActivity(new Intent(SignUpActivity.this,TwitterCloneActivity.class));
             finish();
@@ -71,6 +74,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
 
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+            onClick(btnSignUp);
+        }
+
+        return false;
     }
 
     private void btnSignUpTapped() {
