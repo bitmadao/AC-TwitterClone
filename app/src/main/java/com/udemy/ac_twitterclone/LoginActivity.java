@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
+import static com.udemy.ac_twitterclone.ACTwitterCloneTools.*;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin = findViewById(R.id.btnLoginActivityLogin);
         btnNeedAccount = findViewById(R.id.btnLoginActivityLoginNeedAccount);
 
+        constraintLayout.setOnClickListener(LoginActivity.this);
         btnLogin.setOnClickListener(LoginActivity.this);
         btnNeedAccount.setOnClickListener(LoginActivity.this);
 
@@ -56,6 +58,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.activityLoginConstraintLayout:
+                hideSoftKeyboardOnTap(constraintLayout,LoginActivity.this);
+                break;
+
             case R.id.btnLoginActivityLogin:
                 btnLoginTapped();
                 break;
