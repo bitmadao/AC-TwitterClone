@@ -35,4 +35,7 @@
     <string name="toast_activity_sign_up_sign_up_success">%s signed up successfully!</string>
     <string name="toast_activity_sign_up_sign_up_error_username">The username %s is already in use…</string>
 
+    <!-- TwitterUsersActivity -->
+    <string name="txt_activity_twitter_users_loading">Loading…</string>
+
 </resources>
