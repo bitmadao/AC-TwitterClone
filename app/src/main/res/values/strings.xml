@@ -11,6 +11,7 @@
     <string name="generic_username">Username</string>
     <string name="generic_password">Password</string>
     <string name="generic_toast_error">Something went wrong…</string>
+    <string name="generic_logout">Logout</string>
 
     <!-- LoginActivity -->
     <string name="btn_activity_login_login">Login</string>

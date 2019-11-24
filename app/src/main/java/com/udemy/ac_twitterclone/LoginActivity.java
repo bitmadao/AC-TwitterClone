@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void btnLoginTapped() {
         if(edtUsername.getText().toString() == null || edtPassword.getText().toString() == null){
             Toast.makeText(LoginActivity.this,
-                    "Please provide a username AND password...",
+                    "Please provide a username AND password...", //TODO strings.xml
                     Toast.LENGTH_LONG)
                 .show();
             return;
