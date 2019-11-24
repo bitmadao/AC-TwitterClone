@@ -53,8 +53,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         edtPasswordConfirm.setOnKeyListener(SignUpActivity.this);
 
         if(ParseUser.getCurrentUser() != null){
-            startActivity(new Intent(SignUpActivity.this,TwitterCloneActivity.class));
-            finish();
+            transitionToTwitterUsersActivity();
         }
     }
 
@@ -134,8 +133,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 ),
                                 Toast.LENGTH_SHORT)
                             .show();
-                        startActivity(new Intent(SignUpActivity.this,TwitterCloneActivity.class));
-                        finish();
+                        transitionToTwitterUsersActivity();
 
                     } else if (e.getMessage().equals("Account already exists for this username.")) {
                         Toast.makeText(
@@ -167,6 +165,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
         startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
         progressBar.setVisibility(View.GONE);
+        finish();
+    }
+
+    private void transitionToTwitterUsersActivity() {
+        startActivity(new Intent(SignUpActivity.this,TwitterUsersActivity.class));
         finish();
     }
 }

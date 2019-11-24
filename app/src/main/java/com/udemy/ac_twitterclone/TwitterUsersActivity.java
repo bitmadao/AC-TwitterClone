@@ -15,7 +15,7 @@ import com.parse.ParseUser;
 
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 
-public class TwitterCloneActivity extends AppCompatActivity implements View.OnClickListener {
+public class TwitterUsersActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

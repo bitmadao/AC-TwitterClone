@@ -51,8 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtPassword.setOnKeyListener(LoginActivity.this);
 
         if(ParseUser.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this,TwitterCloneActivity.class));
-            finish();
+            transitionToTwitterUsersActivity();
         }
 
 
@@ -113,8 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Toast.LENGTH_LONG)
                             .show();
 
-                        startActivity(new Intent(LoginActivity.this,TwitterCloneActivity.class));
-                        finish();
+                        transitionToTwitterUsersActivity();
                     } else if (e.getMessage().equals("Invalid username/password.")) {
                         Toast.makeText(
                                 LoginActivity.this,
@@ -142,5 +140,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar.setVisibility(View.GONE);
         finish();
 
+    }
+
+    private void transitionToTwitterUsersActivity() {
+        startActivity(new Intent(LoginActivity.this,TwitterUsersActivity.class));
+        finish();
     }
 }
