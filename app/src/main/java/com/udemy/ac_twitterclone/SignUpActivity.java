@@ -120,6 +120,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             parseUser.setEmail(edtEmail.getText().toString());
             parseUser.setPassword(edtPassword.getText().toString());
 
+            progressBar.setVisibility(View.VISIBLE);
+
             parseUser.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -132,6 +134,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 ),
                                 Toast.LENGTH_SHORT)
                             .show();
+                        startActivity(new Intent(SignUpActivity.this,TwitterCloneActivity.class));
+                        finish();
+
                     } else if (e.getMessage().equals("Account already exists for this username.")) {
                         Toast.makeText(
                                 SignUpActivity.this,
@@ -150,6 +155,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             .show();
 
                     }
+
+                    progressBar.setVisibility(View.GONE);
                 }
             });
 
@@ -157,7 +164,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void btnHaveAccountTapped() {
+        progressBar.setVisibility(View.VISIBLE);
         startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+        progressBar.setVisibility(View.GONE);
         finish();
     }
 }
