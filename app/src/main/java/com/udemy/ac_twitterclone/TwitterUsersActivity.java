@@ -61,6 +61,15 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_twitter_users_menu, menu);
+
+        if(ParseUser.getCurrentUser() != null) {
+            menu.getItem(0).setTitle(
+                    String.format(
+                            getString(R.string.menu_item_activity_twitter_users_current_user),
+                            ParseUser.getCurrentUser().getUsername()
+                )
+            );
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

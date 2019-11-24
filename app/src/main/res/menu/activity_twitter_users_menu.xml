@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuItemTwitterUsersCurrentUser"
+        android:enabled="false"
+        android:title="@string/menu_item_activity_twitter_users_current_user_default"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menuItemTwitterUsersLogout"
         android:title="@string/generic_logout"
         app:showAsAction="always" />
