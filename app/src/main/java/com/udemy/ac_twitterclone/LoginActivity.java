@@ -137,7 +137,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void btnNeedAccountTapped() {
+        progressBar.setVisibility(View.VISIBLE);
         startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+        progressBar.setVisibility(View.GONE);
         finish();
 
     }
