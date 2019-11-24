@@ -28,7 +28,7 @@ public class ACTwitterCloneTools {
         return progressBar;
     }
 
-    public static void hideSoftKeyboardOnTap(View view, Context context) {
+    public static void hideSoftKeyboardOnTap(Context context,View view) {
 
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);

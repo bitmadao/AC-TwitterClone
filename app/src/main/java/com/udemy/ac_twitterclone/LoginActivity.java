@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activityLoginConstraintLayout:
-                hideSoftKeyboardOnTap(constraintLayout,LoginActivity.this);
+                hideSoftKeyboardOnTap(LoginActivity.this,constraintLayout);
                 break;
 
             case R.id.btnLoginActivityLogin:

@@ -6,9 +6,11 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.ParseException;
@@ -16,8 +18,13 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
+import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
+import static com.udemy.ac_twitterclone.ACTwitterCloneTools.hideSoftKeyboardOnTap;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private ConstraintLayout constraintLayout;
+    private ProgressBar progressBar;
 
     private TextInputEditText edtUsername, edtEmail, edtPassword, edtPasswordConfirm;
 
@@ -27,6 +34,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        constraintLayout = findViewById(R.id.activitySignUpConstraintLayout);
+        progressBar = createGoneProgressBar(SignUpActivity.this,constraintLayout);
+
         edtUsername = findViewById(R.id.textInputEditTextSignUpActivityUsername);
         edtEmail = findViewById(R.id.textInputEditTextSignUpActivityEmail);
         edtPassword = findViewById(R.id.textInputEditTextSignUpActivityPassword);
@@ -35,6 +45,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         btnSignUp = findViewById(R.id.btnSignUpActivitySignUp);
         btnHaveAccount = findViewById(R.id.btnSignUpActivityHaveAccount);
 
+        constraintLayout.setOnClickListener(SignUpActivity.this);
         btnSignUp.setOnClickListener(SignUpActivity.this);
         btnHaveAccount.setOnClickListener(SignUpActivity.this);
 
@@ -47,6 +58,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+
+            case R.id.activitySignUpConstraintLayout:
+                hideSoftKeyboardOnTap(SignUpActivity.this,constraintLayout);
+                break;
             case R.id.btnSignUpActivitySignUp:
                 btnSignUpTapped();
                 break;
