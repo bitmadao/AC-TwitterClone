@@ -20,7 +20,7 @@ import com.parse.SignUpCallback;
 
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
-import static com.udemy.ac_twitterclone.ACTwitterCloneTools.hideSoftKeyboardOnTap;
+import static com.udemy.ac_twitterclone.ACTwitterCloneTools.hideSoftKeyboard;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         switch(v.getId()){
 
             case R.id.activitySignUpConstraintLayout:
-                hideSoftKeyboardOnTap(SignUpActivity.this,constraintLayout);
+                hideSoftKeyboard(SignUpActivity.this,constraintLayout);
                 break;
             case R.id.btnSignUpActivitySignUp:
                 btnSignUpTapped();
@@ -79,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+            hideSoftKeyboard(SignUpActivity.this,constraintLayout);
             onClick(btnSignUp);
         }
 

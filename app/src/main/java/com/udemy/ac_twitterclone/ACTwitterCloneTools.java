@@ -28,11 +28,11 @@ public class ACTwitterCloneTools {
         return progressBar;
     }
 
-    public static void hideSoftKeyboardOnTap(Context context,View view) {
+    public static void hideSoftKeyboard(Context context, View activityLayout) {
 
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow(activityLayout.getWindowToken(), 0);
         } catch(Exception e) {
             Log.i(APPTAG,e.getMessage());
             Toast.makeText(

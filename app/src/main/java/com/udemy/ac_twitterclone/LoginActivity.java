@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activityLoginConstraintLayout:
-                hideSoftKeyboardOnTap(LoginActivity.this,constraintLayout);
+                hideSoftKeyboard(LoginActivity.this,constraintLayout);
                 break;
 
             case R.id.btnLoginActivityLogin:
@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+            hideSoftKeyboard(LoginActivity.this,constraintLayout);
             onClick(btnLogin);
         }
 
