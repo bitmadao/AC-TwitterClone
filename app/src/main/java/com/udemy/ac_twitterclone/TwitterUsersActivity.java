@@ -21,6 +21,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
@@ -29,8 +30,9 @@ import static com.udemy.ac_twitterclone.ACTwitterCloneTools.logoutParseUser;
 public class TwitterUsersActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ListView usersListView;
-    private ArrayList<String> usersArrayList;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<TwitterUsersActivityListUser> usersArrayList;
+    private ArrayAdapter<TwitterUsersActivityListUser> arrayAdapter;
+    private ArrayList<String> currentUserFollowingArrayList;
 
     private float usersListViewAlphaValue; // use for animations during populateUsersScrollView()
     private TextView txtLoadingUsers;
@@ -45,14 +47,25 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         }
 
         usersArrayList = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<>(TwitterUsersActivity.this,android.R.layout.simple_list_item_1,usersArrayList);
+        arrayAdapter = new ArrayAdapter<>(TwitterUsersActivity.this,android.R.layout.simple_list_item_checked,usersArrayList);
 
         usersListView = findViewById(R.id.activityTwitterUsersListView);
+        usersListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         usersListViewAlphaValue = usersListView.getAlpha();
         usersListView.setAlpha(0); // animate return to correct alpha value during populateUsersScrollView()
         txtLoadingUsers = findViewById(R.id.txtActivityTwitterUsersLoading);
 
         populateUsersScrollView();
+
+        currentUserFollowingArrayList = getFollowersArray();
+        currentUserFollowingArrayList.add("Test");
+        currentUserFollowingArrayList.remove("Test");
+        if(!currentUserFollowingArrayList.contains("Test")){
+            Toast.makeText(TwitterUsersActivity.this, "Does not contain text!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(TwitterUsersActivity.this, "Contains text!(?)", Toast.LENGTH_LONG).show();
+        }
+
 
 
     }
@@ -107,7 +120,12 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 if(e == null){
                     if (objects.size() > 0){
                         for(ParseUser user: objects){
-                            usersArrayList.add(user.getUsername());
+                            boolean followingUser = false;
+                            if(currentUserFollowingArrayList.contains(user.get("objectId").toString())) {
+                                followingUser = true;
+                            }
+
+                            usersArrayList.add(new TwitterUsersActivityListUser(user.getUsername(),followingUser));
                         }
                         usersListView.setAdapter(arrayAdapter);
                         txtLoadingUsers.animate().alpha(0).setDuration(2000).start();
@@ -122,5 +140,17 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
+    }
+
+    private ArrayList<String> getFollowersArray(){
+
+        if(ParseUser.getCurrentUser().get("arrFollowing") != null){
+            String[] followingStringsArray = (String[]) ParseUser.getCurrentUser().get("arrFollowing");
+            ArrayList<String> returnList = (ArrayList<String>) Arrays.asList(followingStringsArray);
+            return  returnList;
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 }
