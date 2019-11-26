@@ -22,7 +22,7 @@ public class TwitterUsersActivityListUser implements Serializable {
     }
 
 
-    public boolean isFollowing() {
+    public boolean isCurrentUserFollowing() {
         return following;
     }
 
