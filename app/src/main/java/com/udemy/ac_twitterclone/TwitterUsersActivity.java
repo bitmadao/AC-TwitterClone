@@ -308,7 +308,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    public void unFollowUser(final CheckedTextView checkedTextView){
+    private void unFollowUser(final CheckedTextView checkedTextView){
         final String username = checkedTextView.getText().toString();
         ParseQuery<ParseUser> userToUnFollowParseQuery = ParseUser.getQuery();
         userToUnFollowParseQuery.whereEqualTo("username",username);
