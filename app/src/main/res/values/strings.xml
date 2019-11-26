@@ -45,10 +45,14 @@
     <string name="menu_item_activity_twitter_users_following_mode_follower_class">Using: Follower class</string>
     <string name="menu_item_activity_twitter_users_following_mode_fan_of_array">Using: fanOf array</string>
     <string name="menu_item_activity_twitter_users_following_mode_default">Using: Following mode</string>
-
     <string name="toast_activity_twitter_users_no_users">No users…</string>
     <string name="toast_activity_twitter_users_follow_success">%s followed successfully</string>
     <string name="toast_activity_twitter_users_un_follow_success">%s un-followed successfully</string>
 
+    <!-- TweetActivity -->
+    <string name="hint_activity_tweet_edt_tweet">Type tweet here</string>
+    <string name="hint_activity_tweet_btn_tweet">Tweet</string>
+    <string name="toast_activity_tweet_tweet_too_short">Tweets must be longer than 1 character and can\'t be all white-space…</string>
+    <string name="toast_activity_tweet_tweet_success">Tweet posted successfully!</string>
 
 </resources>

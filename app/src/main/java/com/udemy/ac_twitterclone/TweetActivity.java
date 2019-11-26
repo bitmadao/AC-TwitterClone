@@ -53,7 +53,7 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
 
     private void btnTweetTapped() {
         if(edtTweet.getText().toString().isEmpty() || edtTweet.getText().toString().trim().length() < 1){
-            Toast.makeText(this, "Tweets must be longer than 1 character and can't be all white-space...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_activity_tweet_tweet_too_short), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -65,7 +65,7 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Toast.makeText(TweetActivity.this, "Tweet posted successfully!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TweetActivity.this, getString(R.string.toast_activity_tweet_tweet_success), Toast.LENGTH_LONG).show();
                     finish();
                 } else {
                     Log.i(APPTAG, e.getMessage());
