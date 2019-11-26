@@ -7,7 +7,9 @@ import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +24,12 @@ import static com.udemy.ac_twitterclone.ACTwitterCloneTools.APPTAG;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.createGoneProgressBar;
 import static com.udemy.ac_twitterclone.ACTwitterCloneTools.hideSoftKeyboard;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener, CompoundButton.OnCheckedChangeListener {
 
     private ConstraintLayout constraintLayout;
     private ProgressBar progressBar;
 
+    private Switch swUsesFanOf;
     private TextInputEditText edtUsername, edtEmail, edtPassword, edtPasswordConfirm;
 
     private Button  btnSignUp, btnHaveAccount;
@@ -38,6 +41,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         constraintLayout = findViewById(R.id.activitySignUpConstraintLayout);
         progressBar = createGoneProgressBar(SignUpActivity.this,constraintLayout);
 
+
+        swUsesFanOf = findViewById(R.id.switchSignUpActivityUseFanOf);
+        swUsesFanOf.setOnCheckedChangeListener(SignUpActivity.this);
         edtUsername = findViewById(R.id.textInputEditTextSignUpActivityUsername);
         edtEmail = findViewById(R.id.textInputEditTextSignUpActivityEmail);
         edtPassword = findViewById(R.id.textInputEditTextSignUpActivityPassword);
@@ -55,6 +61,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if(ParseUser.getCurrentUser() != null){
             transitionToTwitterUsersActivity();
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked) {
+            buttonView.setText(R.string.switch_activity_sign_up_fan_of_true);
+        } else {
+            buttonView.setText(R.string.switch_activity_sign_up_fan_of_false);
+        }
+
     }
 
     @Override
@@ -118,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             parseUser.setUsername(edtUsername.getText().toString());
             parseUser.setEmail(edtEmail.getText().toString());
             parseUser.setPassword(edtPassword.getText().toString());
+            parseUser.put("usesFanOf",swUsesFanOf.isChecked());
 
             progressBar.setVisibility(View.VISIBLE);
 
