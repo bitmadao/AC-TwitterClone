@@ -106,9 +106,9 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         CheckedTextView checkedTextView = (CheckedTextView) view;
 
         if(checkedTextView.isChecked()){
-            followUser(checkedTextView.getText().toString());
+            followUser(checkedTextView);
         } else {
-            unFollowUser(checkedTextView.getText().toString());
+            unFollowUser(checkedTextView);
         }
 
 
@@ -184,8 +184,8 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void followUser(final String username){
-
+    private void followUser(final CheckedTextView checkedTextView){
+        final String username = checkedTextView.getText().toString();
         ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
         parseQuery.whereEqualTo("username",username);
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -219,6 +219,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                                             getString(R.string.generic_toast_error),
                                             Toast.LENGTH_LONG
                                         ).show();
+                                    checkedTextView.setChecked(false);
                                 }
                             }
                         });
@@ -230,12 +231,14 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                             getString(R.string.generic_toast_error),
                             Toast.LENGTH_LONG
                     ).show();
+                    checkedTextView.setChecked(false);
                 }
             }
         });
     }
 
-    public void unFollowUser(final String username){
+    public void unFollowUser(final CheckedTextView checkedTextView){
+        final String username = checkedTextView.getText().toString();
         ParseQuery<ParseUser> userToUnFollowParseQuery = ParseUser.getQuery();
         userToUnFollowParseQuery.whereEqualTo("username",username);
         userToUnFollowParseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -269,15 +272,40 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                                                             getString(R.string.generic_toast_error),
                                                             Toast.LENGTH_LONG
                                                         ).show();
+                                                    checkedTextView.setChecked(true);
                                                 }
                                             }
                                         });
+                                    } else {
+                                        Log.i(APPTAG,"objects size from followerRowToDeleteQuery is " + objects.size());
+                                        Toast.makeText(
+                                                TwitterUsersActivity.this,
+                                                getString(R.string.generic_toast_error),
+                                                Toast.LENGTH_LONG
+                                        ).show();
+                                        checkedTextView.setChecked(true);
                                     }
+                                } else {
+                                    Log.i(APPTAG, e.getMessage());
+                                    Toast.makeText(
+                                            TwitterUsersActivity.this,
+                                            getString(R.string.generic_toast_error),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                    checkedTextView.setChecked(true);
                                 }
                             }
                         });
 
                     }
+                } else {
+                    Log.i(APPTAG, e.getMessage());
+                    Toast.makeText(
+                            TwitterUsersActivity.this,
+                            getString(R.string.generic_toast_error),
+                            Toast.LENGTH_LONG
+                    ).show();
+                    checkedTextView.setChecked(true);
                 }
             }
         });
