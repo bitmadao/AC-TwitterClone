@@ -39,5 +39,9 @@
     <string name="txt_activity_twitter_users_loading">Loading…</string>
     <string name="menu_item_activity_twitter_users_current_user">User: %s</string>
     <string name="menu_item_activity_twitter_users_current_user_default">User: username</string>
+    <string name="toast_activity_twitter_users_no_users">No users…</string>
+    <string name="toast_activity_twitter_users_follow_success">%s followed successfully</string>
+    <string name="toast_activity_twitter_users_un_follow_success">%s un-followed successfully</string>
+
 
 </resources>

@@ -152,7 +152,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                     } else {
                         Toast.makeText(
                                 TwitterUsersActivity.this,
-                                "No users", // TODO strings.xml
+                                getString(R.string.toast_activity_twitter_users_no_users),
                                 Toast.LENGTH_LONG
                         ).show();
                     }
@@ -194,7 +194,6 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 if(e == null){
                     if(objects.size() > 0){
                         final ParseUser userToFollow = objects.get(0);
-                        Log.i(APPTAG, "" + userToFollow.getObjectId());
                         ParseObject parseObject = new ParseObject("Follower");
                         parseObject.put("userId",userToFollow.getObjectId());
                         parseObject.put("followerId",currentUser.getObjectId());
@@ -207,7 +206,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                                     Toast.makeText(
                                             TwitterUsersActivity.this,
                                             String.format(
-                                                    "%s followed successfully", // TODO strings.xml
+                                                    getString(R.string.toast_activity_twitter_users_follow_success),
                                                     username),
                                             Toast.LENGTH_LONG
                                         ).show();
@@ -262,7 +261,10 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                                                 if(e == null) {
                                                     Toast.makeText(
                                                             TwitterUsersActivity.this,
-                                                            String.format("%s unfollowed successfully", username), //TODO strings.xml
+                                                            String.format(
+                                                                    getString(R.string.toast_activity_twitter_users_un_follow_success),
+                                                                    username
+                                                                ),
                                                             Toast.LENGTH_LONG
                                                         ).show();
                                                 } else {
