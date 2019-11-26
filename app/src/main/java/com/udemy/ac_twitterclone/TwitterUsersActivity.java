@@ -37,8 +37,10 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
 
     private ListView usersListView;
     private ArrayList<TwitterUsersActivityListUser> usersArrayList;
-    private ArrayAdapter<TwitterUsersActivityListUser> arrayAdapter;
+    private ArrayAdapter<TwitterUsersActivityListUser> arrayAdapterTwitterUsersActivityListUser;
+    private ArrayAdapter<String> arrayAdapterString;
     private ArrayList<String> currentUserFollowingArrayList;
+    private ArrayList<String> currentUserFanOfArrayList;
 
     private float usersListViewAlphaValue; // use for animations during populateUsersScrollView()
     private TextView txtLoadingUsers;
@@ -58,18 +60,30 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         }
 
         usersArrayList = new ArrayList<>();
-        arrayAdapter = new ArrayAdapter<>(TwitterUsersActivity.this,android.R.layout.simple_list_item_checked,usersArrayList);
+        tUsers = new ArrayList<>();
 
+        if(!((boolean) currentUser.get("usesFanOf"))) {
+            arrayAdapterTwitterUsersActivityListUser = new ArrayAdapter<>(
+                    TwitterUsersActivity.this,
+                    android.R.layout.simple_list_item_checked,
+                    usersArrayList);
+        } else {
+            arrayAdapterString = new ArrayAdapter<>(
+                    TwitterUsersActivity.this,
+                    android.R.layout.simple_list_item_checked,
+                    tUsers);
+
+        }
         usersListView = findViewById(R.id.activityTwitterUsersListView);
         usersListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         usersListView.setOnItemClickListener(TwitterUsersActivity.this);
         usersListViewAlphaValue = usersListView.getAlpha();
         usersListView.setAlpha(0); // animate return to correct alpha value during populateUsersScrollView()
         txtLoadingUsers = findViewById(R.id.txtActivityTwitterUsersLoading);
-        tUsers = new ArrayList<>();
 
         currentUserFollowingArrayList = new ArrayList<>();
-        updateFollowingArrayAndPopulateListView(); // query ParseServer for which users currentUser is following, call populateUsersScrollView() inside method
+        currentUserFanOfArrayList = new ArrayList<>();
+        updateCurrentUserFollowingArraysAndPopulateListView(); // query ParseServer for which users currentUser is following, call populateUsersScrollView() inside method
 
 
     }
@@ -109,21 +123,17 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CheckedTextView checkedTextView = (CheckedTextView) view;
 
-        if(currentUser.getList("fanOf") == null) {
+        if(!((boolean) currentUser.get("usesFanOf"))) {
             if (checkedTextView.isChecked()) {
-//            followUser(checkedTextView);
-                followUserMorteza(checkedTextView, position);
+                followUser(checkedTextView);
             } else {
-//            unFollowUser(checkedTextView);
-                unFollowUserMorteza(checkedTextView, position);
+                unFollowUser(checkedTextView);
             }
         } else {
             if (checkedTextView.isChecked()) {
-//            followUser(checkedTextView);
-                followUserMorteza(checkedTextView, position);
+                followUserFanOf(checkedTextView, position);
             } else {
-//            unFollowUser(checkedTextView);
-                unFollowUserMorteza(checkedTextView, position);
+                unFollowUserFanOf(checkedTextView, position);
             }
         }
 
@@ -157,19 +167,24 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
 
                             usersArrayList.add(new TwitterUsersActivityListUser(user.getUsername(), followingUser));
                         }
-                        usersListView.setAdapter(arrayAdapter);
 
 
-                        if (currentUser.getList("fanOf") == null){
+                        if (!((boolean) currentUser.get("usesFanOf"))){
+
+                            usersListView.setAdapter(arrayAdapterTwitterUsersActivityListUser);
 
                             for (int i = 0; i < usersArrayList.size(); i++) {
                                 usersListView.setItemChecked(i, usersArrayList.get(i).isCurrentUserFollowing());
                             }
 
                         } else {
+                            usersListView.setAdapter(arrayAdapterString);
 
                             for (String twitterUser : tUsers) {
-                                usersListView.setItemChecked(tUsers.indexOf(twitterUser),true);
+                                usersListView.setItemChecked(
+                                        tUsers.indexOf(twitterUser),
+                                        currentUserFanOfArrayList.contains(twitterUser)
+                                    );
                             }
                         }
 
@@ -191,23 +206,33 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void updateFollowingArrayAndPopulateListView(){
-        ParseQuery<ParseObject> followingArrayQuery = new ParseQuery<>("Follower");
-        followingArrayQuery.whereEqualTo("followerId",currentUser.getObjectId());
-        followingArrayQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null) {
-                    if(objects.size() > 0) {
-                        for(ParseObject object: objects){
-                            currentUserFollowingArrayList.add((String) object.get("userId"));
-                        }
-                    }
-                    populateUsersScrollView();
-                }
-            }
+    private void updateCurrentUserFollowingArraysAndPopulateListView(){
 
-        });
+        if(!((boolean) currentUser.get("usesFanOf"))) {
+            ParseQuery<ParseObject> followingArrayQuery = new ParseQuery<>("Follower");
+            followingArrayQuery.whereEqualTo("followerId", currentUser.getObjectId());
+            followingArrayQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        if (objects.size() > 0) {
+                            for (ParseObject object : objects) {
+                                currentUserFollowingArrayList.add((String) object.get("userId"));
+                            }
+                        }
+                        populateUsersScrollView();
+                    }
+                }
+
+            });
+        } else {
+            if(currentUser.getList("fanOf") != null) {
+                List fanOfList =  currentUser.getList("fanOf");
+                currentUserFanOfArrayList.addAll(fanOfList);
+
+                populateUsersScrollView();
+            }
+        }
 
     }
 
@@ -263,13 +288,19 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void followUserMorteza(final CheckedTextView checkedTextView, final int position){
+    private void followUserFanOf(final CheckedTextView checkedTextView, final int position){
         currentUser.add("fanOf",usersArrayList.get(position).getName());
         currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Toast.makeText(TwitterUsersActivity.this, checkedTextView.getText().toString() + " has been saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            TwitterUsersActivity.this,
+                            String.format(
+                                    getString(R.string.toast_activity_twitter_users_follow_success),
+                                    checkedTextView.getText().toString()
+                                ),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -318,7 +349,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                                             }
                                         });
                                     } else {
-                                        Log.i(APPTAG,"objects size from followerRowToDeleteQuery is " + objects.size());
+
                                         Toast.makeText(
                                                 TwitterUsersActivity.this,
                                                 getString(R.string.generic_toast_error),
@@ -352,7 +383,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void unFollowUserMorteza(final CheckedTextView checkedTextView, final int position) {
+    private void unFollowUserFanOf(final CheckedTextView checkedTextView, final int position) {
 
         currentUser.getList("fanOf").remove(usersArrayList.get(position).getName());
 
@@ -364,7 +395,14 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Toast.makeText(TwitterUsersActivity.this, checkedTextView.getText().toString() + " has been removed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            TwitterUsersActivity.this,
+                            String.format(
+                                    getString(R.string.toast_activity_twitter_users_un_follow_success),
+                                    checkedTextView.getText().toString()
+                                ),
+                            Toast.LENGTH_LONG
+                        ).show();
                 }
             }
         });
