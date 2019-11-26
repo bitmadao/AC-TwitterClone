@@ -122,6 +122,10 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menuItemTwitterUsersSend:
+                menuItemSendTapped();
+
+                break;
             case R.id.menuItemTwitterUsersLogout:
                 menuItemLogoutTapped();
                 break;
@@ -152,6 +156,10 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
+    }
+
+    private void menuItemSendTapped() {
+        Toast.makeText(TwitterUsersActivity.this, "Send was tapped, run for cover!!", Toast.LENGTH_LONG).show();
     }
     private void menuItemLogoutTapped(){
         logoutParseUser(this,TwitterUsersActivity.this,LoginActivity.class);
