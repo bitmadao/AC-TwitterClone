@@ -102,6 +102,19 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                             currentUser.getUsername()
                 )
             );
+
+            String followModeString;
+            if(!usesFanOf) {
+                followModeString = getString(R.string.menu_item_activity_twitter_users_following_mode_follower_class);
+            } else {
+                followModeString = getString(R.string.menu_item_activity_twitter_users_following_mode_fan_of_array);
+            }
+            menu.getItem(1).setTitle(
+                    String.format(
+                            followModeString,
+                            currentUser.getUsername()
+                )
+            );
         }
         return super.onCreateOptionsMenu(menu);
     }
