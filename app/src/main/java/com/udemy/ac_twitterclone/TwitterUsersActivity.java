@@ -43,6 +43,9 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     private float usersListViewAlphaValue; // use for animations during populateUsersScrollView()
     private TextView txtLoadingUsers;
 
+    // Course references
+    private ArrayList<String> tUsers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +66,11 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         usersListViewAlphaValue = usersListView.getAlpha();
         usersListView.setAlpha(0); // animate return to correct alpha value during populateUsersScrollView()
         txtLoadingUsers = findViewById(R.id.txtActivityTwitterUsersLoading);
-
+        tUsers = new ArrayList<>();
 
         currentUserFollowingArrayList = new ArrayList<>();
         updateFollowingArrayAndPopulateListView(); // query ParseServer for which users currentUser is following, call populateUsersScrollView() inside method
+
 
     }
 
@@ -105,12 +109,23 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CheckedTextView checkedTextView = (CheckedTextView) view;
 
-        if(checkedTextView.isChecked()){
-            followUser(checkedTextView);
+        if(currentUser.getList("fanOf") == null) {
+            if (checkedTextView.isChecked()) {
+//            followUser(checkedTextView);
+                followUserMorteza(checkedTextView, position);
+            } else {
+//            unFollowUser(checkedTextView);
+                unFollowUserMorteza(checkedTextView, position);
+            }
         } else {
-            unFollowUser(checkedTextView);
+            if (checkedTextView.isChecked()) {
+//            followUser(checkedTextView);
+                followUserMorteza(checkedTextView, position);
+            } else {
+//            unFollowUser(checkedTextView);
+                unFollowUserMorteza(checkedTextView, position);
+            }
         }
-
 
     }
     private void menuItemLogoutTapped(){
@@ -131,19 +146,31 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 if(e == null){
-                    if (objects.size() > 0){
-                        for(ParseUser user: objects){
+                    if (objects.size() > 0) {
+                        for (ParseUser user : objects) {
                             boolean followingUser = false;
-                            if(currentUserFollowingArrayList.contains(user.getObjectId())) {
+                            if (currentUserFollowingArrayList.contains(user.getObjectId())) {
                                 followingUser = true;
                             }
 
-                            usersArrayList.add(new TwitterUsersActivityListUser(user.getUsername(),followingUser));
+                            tUsers.add(user.getUsername());
+
+                            usersArrayList.add(new TwitterUsersActivityListUser(user.getUsername(), followingUser));
                         }
                         usersListView.setAdapter(arrayAdapter);
 
-                        for(int i = 0; i < usersArrayList.size(); i ++){
-                            usersListView.setItemChecked(i,usersArrayList.get(i).isCurrentUserFollowing());
+
+                        if (currentUser.getList("fanOf") == null){
+
+                            for (int i = 0; i < usersArrayList.size(); i++) {
+                                usersListView.setItemChecked(i, usersArrayList.get(i).isCurrentUserFollowing());
+                            }
+
+                        } else {
+
+                            for (String twitterUser : tUsers) {
+                                usersListView.setItemChecked(tUsers.indexOf(twitterUser),true);
+                            }
                         }
 
                         txtLoadingUsers.animate().alpha(0).setDuration(2000).start();
@@ -236,6 +263,18 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    private void followUserMorteza(final CheckedTextView checkedTextView, final int position){
+        currentUser.add("fanOf",usersArrayList.get(position).getName());
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null) {
+                    Toast.makeText(TwitterUsersActivity.this, checkedTextView.getText().toString() + " has been saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     public void unFollowUser(final CheckedTextView checkedTextView){
         final String username = checkedTextView.getText().toString();
         ParseQuery<ParseUser> userToUnFollowParseQuery = ParseUser.getQuery();
@@ -311,5 +350,24 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
+    }
+
+    private void unFollowUserMorteza(final CheckedTextView checkedTextView, final int position) {
+
+        currentUser.getList("fanOf").remove(usersArrayList.get(position).getName());
+
+        List currentUserFanOfList = currentUser.getList("fanOf");
+        currentUser.remove("fanOf");
+        currentUser.put("fanOf", currentUserFanOfList);
+
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null) {
+                    Toast.makeText(TwitterUsersActivity.this, checkedTextView.getText().toString() + " has been removed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }
