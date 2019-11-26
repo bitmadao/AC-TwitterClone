@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         edtUsername = findViewById(R.id.textInputEditTextLoginActivityUsername);
         edtPassword = findViewById(R.id.textInputEditTextLoginActivityPassword);
+        progressBar = createGoneProgressBar(LoginActivity.this,constraintLayout);
 
         btnLogin = findViewById(R.id.btnLoginActivityLogin);
         btnNeedAccount = findViewById(R.id.btnLoginActivityLoginNeedAccount);
@@ -94,7 +95,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
 
-        progressBar = createGoneProgressBar(LoginActivity.this,constraintLayout);
         progressBar.setVisibility(View.VISIBLE);
         ParseUser.logInInBackground(
                 edtUsername.getText().toString(),
