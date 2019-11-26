@@ -21,6 +21,8 @@
     <string name="toast_activity_login_login_invalid">Those credentials do not match our records…</string>
 
     <!-- SignUpActivity -->
+    <string name="switch_activity_sign_up_fan_of_false">This user will use Follower-class</string>
+    <string name="switch_activity_sign_up_fan_of_true">This user will use fanOf-array</string>
     <string name="hint_activity_sign_up_edt_username">Enter a username</string>
     <string name="hint_activity_sign_up_edt_email">Enter an e-mail address</string>
     <string name="hint_activity_sign_up_edt_password">Choose your password</string>

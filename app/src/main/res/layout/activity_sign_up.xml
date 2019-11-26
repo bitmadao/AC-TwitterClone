@@ -17,6 +17,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cartoon_bluebird" />
 
+    <Switch
+        android:id="@+id/switchSignUpActivityUseFanOf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/switch_activity_sign_up_fan_of_false"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutSignUpActivityUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutSignUpActivityUsername"
         android:layout_width="409dp"
@@ -25,7 +38,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/switchSignUpActivityUseFanOf">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextSignUpActivityUsername"
