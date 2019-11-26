@@ -12,6 +12,7 @@
     <string name="generic_password">Password</string>
     <string name="generic_toast_error">Something went wrong…</string>
     <string name="generic_logout">Logout</string>
+    <string name="generic_send">Send</string>
 
     <!-- LoginActivity -->
     <string name="btn_activity_login_login">Login</string>
@@ -41,6 +42,10 @@
     <string name="txt_activity_twitter_users_loading">Loading…</string>
     <string name="menu_item_activity_twitter_users_current_user">User: %s</string>
     <string name="menu_item_activity_twitter_users_current_user_default">User: username</string>
+    <string name="menu_item_activity_twitter_users_following_mode_follower_class">Using: Follower class</string>
+    <string name="menu_item_activity_twitter_users_following_mode_fan_of_array">Using: fanOf array</string>
+    <string name="menu_item_activity_twitter_users_following_mode_default">Using: Following mode</string>
+
     <string name="toast_activity_twitter_users_no_users">No users…</string>
     <string name="toast_activity_twitter_users_follow_success">%s followed successfully</string>
     <string name="toast_activity_twitter_users_un_follow_success">%s un-followed successfully</string>

@@ -8,7 +8,16 @@
         android:title="@string/menu_item_activity_twitter_users_current_user_default"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menuItemTwitterUsersFollowingMode"
+        android:enabled="false"
+        android:title="@string/menu_item_activity_twitter_users_following_mode_default" />
+    <item
         android:id="@+id/menuItemTwitterUsersLogout"
         android:title="@string/generic_logout"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuItemTwitterUsersSend"
+        android:icon="@drawable/send"
+        android:title="@string/generic_send"
+        app:showAsAction="ifRoom" />
 </menu>
