@@ -58,7 +58,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
             transitionToLoginActivity();
         } {
             currentUser = ParseUser.getCurrentUser();
-            usesFanOf = currentUser.getBoolean("fanOf");
+            usesFanOf = currentUser.getBoolean("usesFanOf");
         }
 
         usersArrayList = new ArrayList<>();
@@ -197,7 +197,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
 
                             tUsers.add(user.getUsername());
 
-                            usersArrayList.add(new TwitterUsersActivityListUser(user.getUsername(), followingUser));
+                            usersArrayList.add(new TwitterUsersActivityListUser(user.getObjectId(),user.getUsername(), followingUser));
                         }
 
 
