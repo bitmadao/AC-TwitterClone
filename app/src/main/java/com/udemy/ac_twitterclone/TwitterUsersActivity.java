@@ -34,6 +34,7 @@ import static com.udemy.ac_twitterclone.ACTwitterCloneTools.logoutParseUser;
 public class TwitterUsersActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ParseUser currentUser;
+    private boolean usesFanOf;
 
     private ListView usersListView;
     private ArrayList<TwitterUsersActivityListUser> usersArrayList;
@@ -57,12 +58,13 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
             transitionToLoginActivity();
         } {
             currentUser = ParseUser.getCurrentUser();
+            usesFanOf = currentUser.getBoolean("fanOf");
         }
 
         usersArrayList = new ArrayList<>();
         tUsers = new ArrayList<>();
 
-        if(!((boolean) currentUser.get("usesFanOf"))) {
+        if(!usesFanOf) {
             arrayAdapterTwitterUsersActivityListUser = new ArrayAdapter<>(
                     TwitterUsersActivity.this,
                     android.R.layout.simple_list_item_checked,
@@ -123,7 +125,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CheckedTextView checkedTextView = (CheckedTextView) view;
 
-        if(!((boolean) currentUser.get("usesFanOf"))) {
+        if(!usesFanOf) {
             if (checkedTextView.isChecked()) {
                 followUser(checkedTextView);
             } else {
@@ -148,6 +150,36 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         finish();
     }
 
+    private void updateCurrentUserFollowingArraysAndPopulateListView(){
+
+        if(!usesFanOf) {
+            ParseQuery<ParseObject> followingArrayQuery = new ParseQuery<>("Follower");
+            followingArrayQuery.whereEqualTo("followerId", currentUser.getObjectId());
+            followingArrayQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        if (objects.size() > 0) {
+                            for (ParseObject object : objects) {
+                                currentUserFollowingArrayList.add((String) object.get("userId"));
+                            }
+                        }
+                        populateUsersScrollView();
+                    }
+                }
+
+            });
+        } else {
+            if(currentUser.getList("fanOf") != null) {
+                List fanOfList =  currentUser.getList("fanOf");
+                currentUserFanOfArrayList.addAll(fanOfList);
+
+                populateUsersScrollView();
+            }
+        }
+
+    }
+
     private void populateUsersScrollView() {
         ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
         parseQuery.whereNotEqualTo("username", currentUser.getUsername());
@@ -169,7 +201,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                         }
 
 
-                        if (!((boolean) currentUser.get("usesFanOf"))){
+                        if (!usesFanOf){
 
                             usersListView.setAdapter(arrayAdapterTwitterUsersActivityListUser);
 
@@ -204,36 +236,6 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
-    }
-
-    private void updateCurrentUserFollowingArraysAndPopulateListView(){
-
-        if(!((boolean) currentUser.get("usesFanOf"))) {
-            ParseQuery<ParseObject> followingArrayQuery = new ParseQuery<>("Follower");
-            followingArrayQuery.whereEqualTo("followerId", currentUser.getObjectId());
-            followingArrayQuery.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        if (objects.size() > 0) {
-                            for (ParseObject object : objects) {
-                                currentUserFollowingArrayList.add((String) object.get("userId"));
-                            }
-                        }
-                        populateUsersScrollView();
-                    }
-                }
-
-            });
-        } else {
-            if(currentUser.getList("fanOf") != null) {
-                List fanOfList =  currentUser.getList("fanOf");
-                currentUserFanOfArrayList.addAll(fanOfList);
-
-                populateUsersScrollView();
-            }
-        }
-
     }
 
     private void followUser(final CheckedTextView checkedTextView){
