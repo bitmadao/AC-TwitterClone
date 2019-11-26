@@ -127,9 +127,9 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
 
         if(!usesFanOf) {
             if (checkedTextView.isChecked()) {
-                followUser(checkedTextView);
+                followUser(checkedTextView, position);
             } else {
-                unFollowUser(checkedTextView);
+                unFollowUser(checkedTextView, position);
             }
         } else {
             if (checkedTextView.isChecked()) {
@@ -238,47 +238,29 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void followUser(final CheckedTextView checkedTextView){
+    private void followUser(final CheckedTextView checkedTextView, final int position){
         final String username = checkedTextView.getText().toString();
-        ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-        parseQuery.whereEqualTo("username",username);
-        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+        String userToFollowId = usersArrayList.get(position).getId();
+
+        ParseObject parseObject = new ParseObject("Follower");
+        parseObject.put("userId",userToFollowId);
+        parseObject.put("followerId",currentUser.getObjectId());
+
+        parseObject.saveInBackground(new SaveCallback() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(e == null){
-                    if(objects.size() > 0){
-                        final ParseUser userToFollow = objects.get(0);
-                        ParseObject parseObject = new ParseObject("Follower");
-                        parseObject.put("userId",userToFollow.getObjectId());
-                        parseObject.put("followerId",currentUser.getObjectId());
+            public void done(ParseException e) {
+                if (e == null){
 
-                        parseObject.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null){
+                    Toast.makeText(
+                            TwitterUsersActivity.this,
+                            String.format(
+                                    getString(R.string.toast_activity_twitter_users_follow_success),
+                                    username),
+                            Toast.LENGTH_LONG
+                    ).show();
 
-                                    Toast.makeText(
-                                            TwitterUsersActivity.this,
-                                            String.format(
-                                                    getString(R.string.toast_activity_twitter_users_follow_success),
-                                                    username),
-                                            Toast.LENGTH_LONG
-                                        ).show();
-
-                                } else {
-                                    Log.i(APPTAG, e.getMessage());
-                                    Toast.makeText(
-                                            TwitterUsersActivity.this,
-                                            getString(R.string.generic_toast_error),
-                                            Toast.LENGTH_LONG
-                                        ).show();
-                                    checkedTextView.setChecked(false);
-                                }
-                            }
-                        });
-                    }
                 } else {
-                    e.getMessage();
+                    Log.i(APPTAG, e.getMessage());
                     Toast.makeText(
                             TwitterUsersActivity.this,
                             getString(R.string.generic_toast_error),
@@ -308,69 +290,57 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void unFollowUser(final CheckedTextView checkedTextView){
+    private void unFollowUser(final CheckedTextView checkedTextView, int position){
         final String username = checkedTextView.getText().toString();
-        ParseQuery<ParseUser> userToUnFollowParseQuery = ParseUser.getQuery();
-        userToUnFollowParseQuery.whereEqualTo("username",username);
-        userToUnFollowParseQuery.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(e == null){
-                    if(objects.size() > 0){
-                        ParseUser userToUnFollow = objects.get(0);
-                        ParseQuery<ParseObject> followerRowToDeleteQuery = ParseQuery.getQuery("Follower");
-                        followerRowToDeleteQuery.whereEqualTo("userId",userToUnFollow.getObjectId());
-                        followerRowToDeleteQuery.whereEqualTo("followerId",currentUser.getObjectId());
-                        followerRowToDeleteQuery.setLimit(1);
-                        followerRowToDeleteQuery.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if(e == null) {
-                                    if(objects.size() > 0) {
-                                        objects.get(0).deleteInBackground(new DeleteCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if(e == null) {
-                                                    Toast.makeText(
-                                                            TwitterUsersActivity.this,
-                                                            String.format(
-                                                                    getString(R.string.toast_activity_twitter_users_un_follow_success),
-                                                                    username
-                                                                ),
-                                                            Toast.LENGTH_LONG
-                                                        ).show();
-                                                } else {
-                                                    Log.i(APPTAG, e.getMessage());
-                                                    Toast.makeText(
-                                                            TwitterUsersActivity.this,
-                                                            getString(R.string.generic_toast_error),
-                                                            Toast.LENGTH_LONG
-                                                        ).show();
-                                                    checkedTextView.setChecked(true);
-                                                }
-                                            }
-                                        });
-                                    } else {
+        String userToUnFollowId = usersArrayList.get(position).getId();
 
-                                        Toast.makeText(
-                                                TwitterUsersActivity.this,
-                                                getString(R.string.generic_toast_error),
-                                                Toast.LENGTH_LONG
+        ParseQuery<ParseObject> followerRowToDeleteQuery = ParseQuery.getQuery("Follower");
+        followerRowToDeleteQuery.whereEqualTo("userId", userToUnFollowId);
+        followerRowToDeleteQuery.whereEqualTo("followerId", currentUser.getObjectId());
+        followerRowToDeleteQuery.setLimit(1);
+
+        followerRowToDeleteQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() > 0) {
+                        objects.get(0).deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(
+                                            TwitterUsersActivity.this,
+                                            String.format(
+                                                    getString(R.string.toast_activity_twitter_users_un_follow_success),
+                                                    username
+                                            ),
+                                            Toast.LENGTH_LONG
                                         ).show();
-                                        checkedTextView.setChecked(true);
-                                    }
                                 } else {
                                     Log.i(APPTAG, e.getMessage());
                                     Toast.makeText(
                                             TwitterUsersActivity.this,
                                             getString(R.string.generic_toast_error),
                                             Toast.LENGTH_LONG
-                                    ).show();
+                                        ).show();
                                     checkedTextView.setChecked(true);
                                 }
+
                             }
                         });
-
+                    } else {
+                        Log.i(APPTAG,
+                                String.format(
+                                        "followerRowToDeleteQuery's resulting object.size is %s",
+                                        objects.size()
+                                    )
+                        );
+                        Toast.makeText(
+                                TwitterUsersActivity.this,
+                                getString(R.string.generic_toast_error),
+                                Toast.LENGTH_LONG
+                            ).show();
+                        checkedTextView.setChecked(true);
                     }
                 } else {
                     Log.i(APPTAG, e.getMessage());
