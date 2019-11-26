@@ -174,8 +174,8 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 List fanOfList =  currentUser.getList("fanOf");
                 currentUserFanOfArrayList.addAll(fanOfList);
 
-                populateUsersScrollView();
             }
+            populateUsersScrollView();
         }
 
     }
