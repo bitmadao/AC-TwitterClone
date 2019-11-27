@@ -126,6 +126,10 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 transitionToTweetActivity();
 
                 break;
+
+            case R.id.menuItemTwitterUsersTrough:
+                transitionToTroughActivity();
+                break;
             case R.id.menuItemTwitterUsersLogout:
                 menuItemLogoutTapped();
                 break;
@@ -162,13 +166,18 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
         logoutParseUser(this,TwitterUsersActivity.this,LoginActivity.class);
 
     }
+
     private void transitionToLoginActivity() {
         startActivity(new Intent(TwitterUsersActivity.this,LoginActivity.class));
         finish();
     }
-
     private void transitionToTweetActivity() {
         startActivity(new Intent(TwitterUsersActivity.this, TweetActivity.class));
+    }
+
+    private void transitionToTroughActivity() {
+        startActivity(new Intent(TwitterUsersActivity.this,TroughActivity.class));
+
     }
 
     private void updateCurrentUserFollowingArraysAndPopulateListView(){

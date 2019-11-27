@@ -20,4 +20,9 @@
         android:icon="@drawable/send"
         android:title="@string/generic_send"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemTwitterUsersTrough"
+        android:icon="@drawable/notafeed"
+        android:title="Trough"
+        app:showAsAction="ifRoom"/>
 </menu>
