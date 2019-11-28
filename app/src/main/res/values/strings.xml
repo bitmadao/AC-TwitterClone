@@ -54,5 +54,9 @@
     <string name="hint_activity_tweet_btn_tweet">Tweet</string>
     <string name="toast_activity_tweet_tweet_too_short">Tweets must be longer than 1 character and can\'t be all white-space…</string>
     <string name="toast_activity_tweet_tweet_success">Tweet posted successfully!</string>
+    <string name="btn_activity_tweet_tweet">Tweet</string>
+    <string name="btn_activity_tweet_refresh">Refresh</string>
+    <string name="txt_activity_tweet_current_user_tweets">Your tweets: </string>
+    <string name="txt_activity_tweet_followed_user_tweets">Tweets from users you follow: </string>
 
 </resources>
