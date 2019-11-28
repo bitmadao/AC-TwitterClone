@@ -27,8 +27,8 @@ public class TroughActivity extends AppCompatActivity {
 
     private ConstraintLayout constraintLayout;
     private ListView troughListView;
-    private ArrayList twitterTroughArrayList;
-    private ArrayAdapter arrayAdapter;
+    private ArrayList<String> twitterTroughArrayList;
+    private ArrayAdapter<String> arrayAdapter;
 
     private ArrayList<String> currentUserFollowsArrayList;
 
@@ -57,7 +57,7 @@ public class TroughActivity extends AppCompatActivity {
         constraintLayout = findViewById(R.id.activityTroughConstraintLayout);
         troughListView = findViewById(R.id.activityTroughListView);
 
-        twitterTroughArrayList = new ArrayList();
+        twitterTroughArrayList = new ArrayList<>();
         currentUserFollowsArrayList = new ArrayList<>();
 
         fillTrough();
@@ -85,6 +85,7 @@ public class TroughActivity extends AppCompatActivity {
                         }
 
                         getTweetsFromFollowedUsersQuery.whereContainedIn("senderId",currentUserFollowsArrayList);
+                        getTweetsFromFollowedUsersQuery.orderByDescending("createdAt");
 
                         getTweetsFromFollowedUsersQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
@@ -92,8 +93,17 @@ public class TroughActivity extends AppCompatActivity {
                                 if(e == null) {
                                     if(objects.size() > 0) {
                                         for(ParseObject object : objects){
-                                            Log.i(APPTAG,object.get("message").toString());
+                                            twitterTroughArrayList.add(
+                                                    String.format(
+                                                            "%s\n %s writes:\n %s",
+                                                            object.getCreatedAt().toString(),
+                                                            object.get("senderUsername"),
+                                                            object.get("message")
+                                                    )
+                                            );
                                         }
+                                        arrayAdapter = new ArrayAdapter<>(TroughActivity.this,android.R.layout.simple_list_item_1,twitterTroughArrayList);
+                                        troughListView.setAdapter(arrayAdapter);
                                     } else {
                                         Toast.makeText(TroughActivity.this, "No tweets found", Toast.LENGTH_LONG).show();
                                         Log.i(APPTAG, "objects.size() " + objects.size());
