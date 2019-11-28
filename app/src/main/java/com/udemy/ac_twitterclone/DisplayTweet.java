@@ -9,13 +9,13 @@ public class DisplayTweet {
     private String message;
 
     public DisplayTweet(ParseObject tweetObject) {
-        header = String.format(
+        this.header = String.format(
                 "%s %s",
                 tweetObject.get("senderUsername"),
                 tweetObject.getCreatedAt().toString()
         );
 
-        message = (String) tweetObject.get("message");
+        this.message = (String) tweetObject.get("message");
     }
     public String getHeader() {
         return header;
