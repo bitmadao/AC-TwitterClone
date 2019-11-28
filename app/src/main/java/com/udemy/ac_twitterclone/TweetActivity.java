@@ -30,6 +30,7 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
     private boolean usesFanOf;
     private EditText edtTweet;
     private Button btnTweet;
+    private Button btnRefresh;
 
     private TextView txtCurrentUserTweets;
     private TextView txtFollowedUserTweets;
@@ -62,6 +63,9 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
         btnTweet = findViewById(R.id.btnTweetActivityTweet);
         btnTweet.setOnClickListener(TweetActivity.this);
 
+        btnRefresh = findViewById(R.id.btnTweetActivityRefresh);
+        btnRefresh.setOnClickListener(TweetActivity.this);
+
         txtCurrentUserTweets = findViewById(R.id.txtTweetActivityTweetsCurrentUser);
         txtFollowedUserTweets= findViewById(R.id.txtTweetActivityTweetsFollowed);
 
@@ -80,8 +84,14 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
     }
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btnTweetActivityTweet){
-            btnTweetTapped();
+        switch(v.getId()){
+            case R.id.btnTweetActivityTweet:
+                btnTweetTapped();
+                break;
+            case R.id.btnTweetActivityRefresh:
+                btnRefreshTapped();
+                break;
+
         }
 
     }
@@ -108,6 +118,12 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    private void btnRefreshTapped(){
+        Toast.makeText(TweetActivity.this, "Refreshing posts...", Toast.LENGTH_LONG).show();
+        getCurrentUserTweets();
+        getFollowedUserTweets();
     }
 
     private void transitionToLogin(){
