@@ -72,10 +72,6 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
         currentUserTweetListView = findViewById(R.id.activityTweetCurrentUserTweetListView);
         followedUserTweetListView = findViewById(R.id.activityTweetFollowedUserTweetListView);
 
-
-        currentUserTweetsAdapter = new DisplayTweetAdapter(TweetActivity.this,currentUserTweets);
-        followedUserTweetsAdapter = new DisplayTweetAdapter(TweetActivity.this,followedUserTweets);
-
         getCurrentUserTweets();
         getFollowedUserTweets();
 
@@ -144,6 +140,7 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                         for(ParseObject tweetObject : objects){
                             currentUserTweets.add(new DisplayTweet(tweetObject));
                         }
+                        currentUserTweetsAdapter = new DisplayTweetAdapter(TweetActivity.this,currentUserTweets);
                         populateListView(currentUserTweetListView, currentUserTweetsAdapter);
                     } else {
                         txtCurrentUserTweets.setText("No tweets from you yet");
@@ -165,7 +162,10 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                         for(ParseObject followedUserTweet: objects){
                             followedUserTweets.add(new DisplayTweet(followedUserTweet));
                         }
+
+                        followedUserTweetsAdapter = new DisplayTweetAdapter(TweetActivity.this,followedUserTweets);
                         populateListView(followedUserTweetListView,followedUserTweetsAdapter);
+
                     } else {
                         txtFollowedUserTweets.setText("No posts from your followed users yet");
                     }
