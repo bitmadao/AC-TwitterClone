@@ -17,6 +17,7 @@
         android:gravity="start|top"
         android:hint="@string/hint_activity_tweet_edt_tweet"
         android:inputType="textMultiLine"
+        android:maxLength="140"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
