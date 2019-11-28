@@ -108,6 +108,12 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                 followModeString = getString(R.string.menu_item_activity_twitter_users_following_mode_follower_class);
             } else {
                 followModeString = getString(R.string.menu_item_activity_twitter_users_following_mode_fan_of_array);
+
+                // disable and remove TroughActivity menuItem from ShowAsAction because it needs Follower-Class
+                menu.getItem(4).setEnabled(false);
+                menu.getItem(4).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                menu.getItem(4).setTitle("Trough (requires Follower-class)"); // TODO strings.xml
+
             }
             menu.getItem(1).setTitle(
                     String.format(
