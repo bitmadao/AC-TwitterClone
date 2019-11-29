@@ -81,7 +81,7 @@ public class TroughActivity extends AppCompatActivity {
                         ParseQuery<ParseObject> getTweetsFromFollowedUsersQuery = ParseQuery.getQuery("Tweet");
 
                         for (ParseObject object: objects){
-                            currentUserFollowsArrayList.add(((String)object.get("userId")));
+                            currentUserFollowsArrayList.add((object.getString("userId")));
                         }
 
                         getTweetsFromFollowedUsersQuery.whereContainedIn("senderId",currentUserFollowsArrayList);
@@ -97,8 +97,8 @@ public class TroughActivity extends AppCompatActivity {
                                                     String.format(
                                                             "%s\n %s writes:\n %s",
                                                             object.getCreatedAt().toString(),
-                                                            object.get("senderUsername"),
-                                                            object.get("message")
+                                                            object.getString("senderUsername"),
+                                                            object.getString("message")
                                                     )
                                             );
                                         }

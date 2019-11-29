@@ -197,7 +197,7 @@ public class TwitterUsersActivity extends AppCompatActivity implements View.OnCl
                     if (e == null) {
                         if (objects.size() > 0) {
                             for (ParseObject object : objects) {
-                                currentUserFollowingArrayList.add((String) object.get("userId"));
+                                currentUserFollowingArrayList.add(object.getString("userId"));
                             }
                         }
                         populateUsersScrollView();

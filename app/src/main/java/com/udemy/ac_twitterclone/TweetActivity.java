@@ -205,8 +205,8 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                     if(objects.size() > 0){
                         for(ParseObject tweetObject: objects){
                             HashMap<String, String> tweetHashMap = new HashMap<>();
-                            tweetHashMap.put("tweetUser",(String) tweetObject.get("senderUsername"));
-                            tweetHashMap.put("tweetMessage",(String) tweetObject.get("message"));
+                            tweetHashMap.put("tweetUser",tweetObject.getString("senderUsername"));
+                            tweetHashMap.put("tweetMessage",tweetObject.getString("message"));
                             currentUserTweetsHashmap.add(tweetHashMap);
                         }
                         currentUserTweetsSimpleAdapter = new SimpleAdapter(TweetActivity.this,
@@ -257,7 +257,7 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                             ArrayList<String> followingUserIdArrayList = new ArrayList<>();
 
                             for(ParseObject followedUserObject :objects){
-                                followingUserIdArrayList.add((String)followedUserObject.get("userId"));
+                                followingUserIdArrayList.add(followedUserObject.getString("userId"));
                             }
 
                             followedUserTweetsQuery.whereContainedIn("senderId",followingUserIdArrayList);
@@ -306,8 +306,8 @@ public class TweetActivity extends AppCompatActivity implements View.OnClickList
                     if(objects.size() > 0){
                         for(ParseObject tweetObject: objects){
                             HashMap<String,String> tweetHashMap = new HashMap<>();
-                            tweetHashMap.put("tweetUser",(String) tweetObject.get("senderUsername"));
-                            tweetHashMap.put("tweetMessage",(String) tweetObject.get("message"));
+                            tweetHashMap.put("tweetUser",tweetObject.getString("senderUsername"));
+                            tweetHashMap.put("tweetMessage",tweetObject.getString("message"));
                             followedUserTweetsHashmap.add(tweetHashMap);
                         }
 
