@@ -56,6 +56,8 @@
     <string name="toast_activity_tweet_tweet_success">Tweet posted successfully!</string>
     <string name="btn_activity_tweet_tweet">Tweet</string>
     <string name="btn_activity_tweet_refresh">Refresh</string>
+    <string name="btn_activity_tweet_mode_use_hashmaps">Use HashMaps</string>
+    <string name="btn_activity_tweet_mode_use_display_tweet">Use DisplayTweet-class</string>
     <string name="txt_activity_tweet_current_user_tweets">Your tweets: </string>
     <string name="txt_activity_tweet_followed_user_tweets">Tweets from users you follow: </string>
 
